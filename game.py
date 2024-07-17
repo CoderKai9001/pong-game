@@ -8,8 +8,10 @@ FPS = 60
 def update_pos(p1_rect, p2_rect, p1_vel, p2_vel, ball_speed, p1_inputs, p2_inputs):
     p1_vel = (p1_inputs['down']-p1_inputs['up'])
     p2_vel = (p2_inputs['down']-p2_inputs['up'])
-    p1_rect.y+=p1_vel*ball_speed
-    p2_rect.y+=p2_vel*ball_speed
+    if p1_rect.top >= 0 and p1_rect.bottom <= HEIGHT:
+        p1_rect.y+=p1_vel*ball_speed
+    if p2_rect.top >= 0 and p2_rect.bottom <= HEIGHT:
+        p2_rect.y+=p2_vel*ball_speed
 
 def vert_coll(ball_rect):
     if ball_rect.top <= 0 or ball_rect.bottom >= HEIGHT:
@@ -87,13 +89,17 @@ def main():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
-                    p1_inputs['up'] = False
+                    if p1_rect.top >= 0:
+                        p1_inputs['up'] = False
                 elif event.key == pygame.K_s:
-                    p1_inputs['down'] = False
+                    if p1_rect.bottom <= HEIGHT:
+                        p1_inputs['down'] = False
                 elif event.key == pygame.K_UP:
-                    p2_inputs['up'] = False
+                    if p2_rect.top >= 0:
+                        p2_inputs['up'] = False
                 elif event.key == pygame.K_DOWN:
-                    p2_inputs['down'] = False
+                    if p2_rect.bottom <= HEIGHT:
+                        p2_inputs['down'] = False
 
         screen.fill((0,0,0))
         screen.blit(ball, ball_rect)
