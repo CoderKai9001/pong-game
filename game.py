@@ -1,6 +1,5 @@
 import pygame
-from pygame.constants import TIMER_RESOLUTION
-
+from random import randint
 WIDTH = 800
 HEIGHT = 400
 FPS = 60
@@ -37,7 +36,7 @@ def main():
     ball_velocity = [0,0]
     ball_x = 400
     ball_y = 200
-    ball_speed = 2
+    ball_speed = 1
     ball_radius = 10
 
     #ball object
@@ -105,18 +104,20 @@ def main():
         screen.blit(ball, ball_rect)
         screen.blit(p1, p1_rect)
         screen.blit(p2, p2_rect)
+        randval = randint(500,1500) / 1000
         if vert_coll(ball_rect):
-            y_speed*=-1
+            y_speed*=-1*randval
 
         match horiz_coll(ball_rect, p1_rect, p2_rect):
             case 1:
-                x_speed*=-1
+                x_speed*=-1*randval
             case 2:
                 print("P1 wins")
                 run = False
             case 3:
                 print("P2 wins")
                 run = False
+
 
         ball_rect.x+=x_speed*ball_speed
         ball_rect.y+=y_speed*ball_speed
